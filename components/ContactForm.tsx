@@ -2,8 +2,26 @@
 
 import { useState } from "react";
 
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+  preferredTime: string;
+  agreeContact: boolean;
+}
+
+interface FormErrors {
+  name?: string;
+  phone?: string;
+  email?: string;
+  message?: string;
+  preferredTime?: string;
+  agreeContact?: string;
+}
+
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     phone: "",
     email: "",
@@ -11,10 +29,10 @@ export default function ContactForm() {
     preferredTime: "",
     agreeContact: false,
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
+    const newErrors: FormErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.phone.trim()) newErrors.phone = "Phone is required";
     else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = "Invalid phone number (10 digits required)";
@@ -47,6 +65,7 @@ export default function ContactForm() {
         preferredTime: "",
         agreeContact: false,
       });
+      setErrors({});
     } else {
       setErrors(newErrors);
     }
